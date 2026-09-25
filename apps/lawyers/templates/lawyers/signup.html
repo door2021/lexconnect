@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% translate "Join" %} · {{ SITE_NAME }}{% endblock %}
+{% block content %}
+<div class="mx-auto max-w-lg rounded-lg border border-slate-200 bg-white p-8 shadow-sm">
+  <h1 class="text-2xl font-semibold">{% translate "Create your account" %}</h1>
+  <p class="mt-1 mb-6 text-sm text-slate-600">{% translate "For advocates enrolled with a Pakistani bar council." %}</p>
+  <form method="post" class="space-y-4" novalidate>
+    {% csrf_token %}
+    {% if form.non_field_errors %}
+      <div class="rounded-md bg-red-50 p-3 text-sm text-red-700">{{ form.non_field_errors }}</div>
+    {% endif %}
+    {{ form.name.as_field_group }}
+    {{ form.handle.as_field_group }}
+    {{ form.email.as_field_group }}
+    {{ form.password1.as_field_group }}
+    {{ form.password2.as_field_group }}
+    <fieldset class="space-y-4 rounded-md border border-slate-200 p-4">
+      <legend class="px-1 text-sm font-semibold text-slate-700">{% translate "Bar details" %}</legend>
+      {{ form.jurisdiction.as_field_group }}
+      {{ form.license_number.as_field_group }}
+    </fieldset>
+    <button type="submit" class="btn-primary w-full">{% translate "Create account" %}</button>
+  </form>
+  <p class="mt-6 text-center text-sm text-slate-600">
+    {% translate "Already a member?" %} <a href="{% url 'accounts:login' %}" class="font-medium text-brand-700 hover:underline">{% translate "Log in" %}</a>
+  </p>
+</div>
+{% endblock %}

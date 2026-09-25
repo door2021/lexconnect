@@ -1,0 +1,19 @@
+{% load i18n tailwind_cli django_htmx %}<!doctype html>
+{% get_current_language as LANGUAGE_CODE %}
+<html lang="{{ LANGUAGE_CODE }}" class="h-full bg-slate-50">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}{{ SITE_NAME }}{% endblock %}</title>
+  {% tailwind_css %}
+  {% htmx_script %}
+</head>
+<body class="h-full font-sans text-slate-900 antialiased"
+      hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+  {% include "partials/navbar.html" %}
+  <main class="mx-auto max-w-5xl px-4 py-8">
+    {% include "partials/messages.html" %}
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>

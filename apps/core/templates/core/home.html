@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+{% if user.is_authenticated %}
+  {% with profile=user.lawyer_profile %}
+  <div class="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
+    <div class="flex items-center gap-3">
+      <h1 class="text-xl font-semibold">{% blocktranslate with name=user.name %}Welcome, {{ name }}{% endblocktranslate %}</h1>
+      {% if profile %}{% include "components/verified_badge.html" with level=profile.verification_level only %}{% endif %}
+    </div>
+    {% if profile and profile.verification_level == "unverified" %}
+      <p class="mt-2 text-sm text-slate-600">{% translate "Add your bar council license number to get verified and unlock messaging and referrals." %}</p>
+    {% elif profile and profile.verification_level == "pending" %}
+      <p class="mt-2 text-sm text-slate-600">{% translate "Your license number is being reviewed." %}</p>
+    {% endif %}
+  </div>
+  {% endwith %}
+{% else %}
+  <section class="py-16 text-center">
+    <h1 class="text-4xl font-bold tracking-tight text-brand-900">{% translate "The professional network for Pakistan's lawyers" %}</h1>
+    <p class="mx-auto mt-4 max-w-xl text-slate-600">{% translate "Connect with verified advocates, share insights, and find referrals across bar councils." %}</p>
+    <a href="{% url 'lawyers:signup' %}" class="btn-primary mt-8">{% translate "Create your account" %}</a>
+  </section>
+{% endif %}
+{% endblock %}

@@ -28,6 +28,10 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.forms",
+    # Third-party apps
+    "django_htmx",
+    "django_tailwind_cli",
     "apps.core",
     "apps.accounts",
     "apps.lawyers",
@@ -41,6 +45,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "django_htmx.middleware.HtmxMiddleware",
 ]
 
 ROOT_URLCONF = "config.urls"
@@ -55,6 +60,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "apps.core.context_processors.site",
             ],
         },
     },
@@ -75,6 +81,7 @@ DATABASES = {"default": env.db("DATABASE_URL")}
 AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
+        "OPTIONS": {"user_attributes": ("email", "handle", "name")},
     },
     {
         "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
@@ -118,3 +125,15 @@ MAILERS = {
 }
 
 AUTH_USER_MODEL = "accounts.User"
+
+LOGIN_URL = "accounts:login"
+LOGIN_REDIRECT_URL = "home"
+LOGOUT_REDIRECT_URL = "home"
+
+SITE_NAME = "LawNet"
+
+FORM_RENDERER = "apps.core.forms.FormRenderer"
+
+# Tailwind (django-tailwind-cli)
+TAILWIND_CLI_VERSION = "4.3.3"
+TAILWIND_CLI_SRC_CSS = "assets/css/source.css"

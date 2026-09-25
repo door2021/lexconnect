@@ -6,3 +6,6 @@ staticfiles/
 media/
 .pytest_cache/
 .ruff_cache/
+
+.django_tailwind_cli/
+static/css/tailwind.css
