@@ -24,7 +24,7 @@ target-version = "py313"
 select = ["E", "F", "I", "B", "UP", "DJ", "S"]
 
 [tool.ruff.lint.per-file-ignores]
-"**/tests/**" = ["S101"]
+"**/tests/**" = ["S101", "S105", "S106"]
 
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "config.settings"
