@@ -1,0 +1,2 @@
+<span id="request-count" {% if oob %}hx-swap-oob="true"{% endif %}
+      class="rounded-full bg-accent-500 px-1.5 text-xs font-semibold text-white empty:hidden">{% if pending_request_count %}{{ pending_request_count }}{% endif %}</span>

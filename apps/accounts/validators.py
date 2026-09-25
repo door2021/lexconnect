@@ -14,7 +14,7 @@ RESERVED_HANDLES = frozenset(
         "feed",
         "groups",
         "help",
-        "lawnet",
+        "lexconnect",
         "login",
         "logout",
         "media",

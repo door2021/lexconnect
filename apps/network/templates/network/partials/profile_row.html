@@ -1,0 +1,12 @@
+<li class="flex items-center justify-between gap-4 py-3">
+  <a href="{% url 'lawyers:profile' profile.user.handle %}" class="flex min-w-0 items-center gap-3">
+    {% include "components/avatar.html" with name=profile.user.name only %}
+    <span class="min-w-0">
+      <span class="flex items-center gap-2 font-medium text-slate-900">{{ profile.user.name }}
+        {% if show_badge %}{% include "components/verified_badge.html" with level=profile.verification_level only %}{% endif %}
+      </span>
+      <span class="block truncate text-sm text-slate-500">@{{ profile.user.handle }}{% if profile.city %} · {{ profile.city }}{% endif %}{% if profile.headline %} · {{ profile.headline }}{% endif %}</span>
+    </span>
+  </a>
+  {% include "network/partials/connect_button.html" %}
+</li>

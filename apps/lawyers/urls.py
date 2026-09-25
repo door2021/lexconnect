@@ -1,10 +1,6 @@
-from django.urls import path, register_converter
-
-from apps.accounts.converters import HandleConverter
+from django.urls import path
 
 from . import views
-
-register_converter(HandleConverter, "handle")
 
 app_name = "lawyers"
 

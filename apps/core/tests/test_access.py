@@ -4,7 +4,13 @@ from django.urls import reverse
 from apps.core.templatetags.core_tags import initials
 
 PUBLIC = ["home", "lawyers:signup", "accounts:login", "accounts:password_reset"]
-PRIVATE = ["lawyers:profile_edit", "lawyers:bar_admissions", "accounts:password_change"]
+PRIVATE = [
+    "lawyers:profile_edit",
+    "lawyers:bar_admissions",
+    "accounts:password_change",
+    "network:index",
+    "network:search",
+]
 
 
 @pytest.mark.parametrize("name", PUBLIC)

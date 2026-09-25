@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% translate "Find lawyers" %} · {{ SITE_NAME }}{% endblock %}
+{% block content %}
+<div class="mx-auto max-w-2xl space-y-6">
+  <form method="get" class="field flex gap-2" role="search">
+    <input type="search" name="q" value="{{ q }}" autofocus
+           placeholder="{% translate 'Name, @handle, city, or full email address' %}"
+           aria-label="{% translate 'Search lawyers' %}">
+    <button type="submit" class="btn-primary">{% translate "Search" %}</button>
+  </form>
+
+  {% if q %}
+    <section class="rounded-lg border border-slate-200 bg-white px-6 shadow-sm">
+      <ul class="divide-y divide-slate-100">
+        {% for profile in results %}
+          {% include "network/partials/profile_row.html" with show_badge=True next=request.get_full_path %}
+        {% empty %}
+          <li class="py-6 text-center text-sm text-slate-500">{% blocktranslate %}No lawyers found for “{{ q }}”.{% endblocktranslate %}</li>
+        {% endfor %}
+      </ul>
+    </section>
+    {% if is_paginated %}
+      <nav class="flex justify-between text-sm">
+        {% if page_obj.has_previous %}<a class="text-brand-700 hover:underline" href="?q={{ q|urlencode }}&page={{ page_obj.previous_page_number }}">{% translate "Previous" %}</a>{% else %}<span></span>{% endif %}
+        {% if page_obj.has_next %}<a class="text-brand-700 hover:underline" href="?q={{ q|urlencode }}&page={{ page_obj.next_page_number }}">{% translate "Next" %}</a>{% endif %}
+      </nav>
+    {% endif %}
+  {% else %}
+    <p class="text-center text-sm text-slate-500">{% translate "Search by name, @handle or city. To find someone by email, type their full address." %}</p>
+  {% endif %}
+</div>
+{% endblock %}

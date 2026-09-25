@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     "apps.core",
     "apps.accounts",
     "apps.lawyers",
+    "apps.network",
 ]
 
 MIDDLEWARE = [
@@ -139,7 +140,7 @@ else:
         "default": {"BACKEND": "django.core.mail.backends.console.EmailBackend"},
     }
 
-DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL", default="LawNet <no-reply@localhost>")
+DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL", default="LexConnect <no-reply@localhost>")
 
 AUTH_USER_MODEL = "accounts.User"
 
@@ -147,7 +148,7 @@ LOGIN_URL = "accounts:login"
 LOGIN_REDIRECT_URL = "home"
 LOGOUT_REDIRECT_URL = "home"
 
-SITE_NAME = "LawNet"
+SITE_NAME = "LexConnect"
 
 FORM_RENDERER = "apps.core.forms.FormRenderer"
 

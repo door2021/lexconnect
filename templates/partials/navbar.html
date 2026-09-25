@@ -8,6 +8,8 @@
           <a href="{% url 'lawyers:profile' user.handle %}" class="text-slate-600 hover:text-brand-700">@{{ user.handle }}</a>
           <a href="{% url 'lawyers:profile_edit' %}" class="text-slate-600 hover:text-brand-700">{% translate "Settings" %}</a>
         {% endif %}
+          <a href="{% url 'network:search' %}" class="text-slate-600 hover:text-brand-700">{% translate "Find lawyers" %}</a>
+          <a href="{% url 'network:index' %}" class="inline-flex items-center gap-1 text-slate-600 hover:text-brand-700">{% translate "Network" %} {% include "network/partials/request_count.html" %}</a>
         <form method="post" action="{% url 'accounts:logout' %}">
           {% csrf_token %}
           <button type="submit" class="text-slate-600 hover:text-brand-700">{% translate "Log out" %}</button>

@@ -1,0 +1,24 @@
+{% load i18n %}
+{% if profile %}
+<div class="connect-button flex flex-wrap items-center gap-2 text-sm" id="connect-{{ profile.pk }}">
+  {% url 'network:connect' profile.user.handle as connect_url %}
+  {% url 'network:cancel' profile.user.handle as cancel_url %}
+  {% url 'network:accept' profile.user.handle as accept_url %}
+  {% url 'network:decline' profile.user.handle as decline_url %}
+  {% url 'network:remove' profile.user.handle as remove_url %}
+
+  {% if profile.is_contact %}
+    <span class="font-medium text-brand-800">{% translate "Connected" %}</span>
+    {% include "network/partials/action_form.html" with url=remove_url label=_("Remove") style="link" %}
+  {% elif profile.request_received %}
+    {% include "network/partials/action_form.html" with url=accept_url label=_("Accept") style="primary" %}
+    {% include "network/partials/action_form.html" with url=decline_url label=_("Decline") style="link" %}
+  {% elif profile.request_sent %}
+    <span class="text-slate-500">{% translate "Request sent" %}</span>
+    {% include "network/partials/action_form.html" with url=cancel_url label=_("Cancel") style="link" %}
+  {% else %}
+    {% include "network/partials/action_form.html" with url=connect_url label=_("Connect") style="primary" %}
+  {% endif %}
+  {% if error %}<p class="w-full text-red-700">{{ error }}</p>{% endif %}
+</div>
+{% endif %}

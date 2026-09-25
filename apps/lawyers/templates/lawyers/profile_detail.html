@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n %}
+{% load i18n network_tags %}
 {% block title %}{{ profile.user.name }} · {{ SITE_NAME }}{% endblock %}
 {% block content %}
 <article class="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
@@ -15,6 +15,8 @@
     </div>
     {% if is_own_profile %}
       <a href="{% url 'lawyers:profile_edit' %}" class="text-sm font-medium text-brand-700 hover:underline">{% translate "Edit profile" %}</a>
+    {% else %}
+      {% connect_button profile %}
     {% endif %}
   </div>
 
