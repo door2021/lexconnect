@@ -2,9 +2,9 @@ services:
   db:
     image: postgres:17
     environment:
-      POSTGRES_USER: lawnet
-      POSTGRES_PASSWORD: lawnet
-      POSTGRES_DB: lawnet
+      POSTGRES_USER: lexconnect
+      POSTGRES_PASSWORD: lexconnect
+      POSTGRES_DB: lexconnect
     ports:
       - "5432:5432"
     volumes:
