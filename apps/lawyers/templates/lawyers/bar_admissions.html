@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% translate "Bar details" %} · {{ SITE_NAME }}{% endblock %}
+{% block content %}
+<div class="mx-auto max-w-2xl space-y-6">
+  {% include "partials/settings_nav.html" %}
+
+  <section class="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
+    <h2 class="text-lg font-semibold">{% translate "Your enrollments" %}</h2>
+    <ul class="mt-4 divide-y divide-slate-100">
+      {% for admission in admissions %}
+        <li class="flex items-center justify-between gap-4 py-3 text-sm">
+          <div>
+            <p class="font-medium">{{ admission.jurisdiction.name }}</p>
+            <p class="text-slate-500">#{{ admission.license_number }} · {{ admission.get_status_display }}</p>
+            {% if admission.status == "rejected" and admission.rejection_reason %}
+              <p class="mt-1 text-red-700">{{ admission.rejection_reason }}</p>
+            {% endif %}
+          </div>
+          {% if admission.status != "verified" %}
+            <form method="post" action="{% url 'lawyers:withdraw_admission' admission.pk %}">
+              {% csrf_token %}
+              <button type="submit" class="text-slate-500 hover:text-red-700">{% translate "Withdraw" %}</button>
+            </form>
+          {% endif %}
+        </li>
+      {% empty %}
+        <li class="py-3 text-sm text-slate-500">{% translate "You haven't added a bar council yet." %}</li>
+      {% endfor %}
+    </ul>
+  </section>
+
+  {% if form.fields.jurisdiction.queryset.exists %}
+    <section class="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
+      <h2 class="mb-4 text-lg font-semibold">{% translate "Add a bar council" %}</h2>
+      <form method="post" class="space-y-4" novalidate>
+        {% csrf_token %}
+        {{ form }}
+        <button type="submit" class="btn-primary">{% translate "Submit for verification" %}</button>
+      </form>
+    </section>
+  {% endif %}
+</div>
+{% endblock %}

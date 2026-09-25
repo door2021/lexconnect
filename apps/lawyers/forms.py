@@ -67,3 +67,33 @@ class SignupForm(forms.Form):
         elif license_number and not jurisdiction:
             self.add_error("jurisdiction", _("Select the council that issued this license."))
         return cleaned
+
+
+class ProfileForm(forms.Form):
+    name = forms.CharField(label=_("Full name"), max_length=150)
+    headline = forms.CharField(
+        label=_("Headline"),
+        max_length=160,
+        required=False,
+        help_text=_("e.g. Advocate High Court · Corporate & tax law"),
+    )
+    city = forms.CharField(label=_("City"), max_length=80, required=False)
+    bio = forms.CharField(
+        label=_("About"), required=False, widget=forms.Textarea(attrs={"rows": 5})
+    )
+
+
+class BarAdmissionForm(forms.Form):
+    jurisdiction = forms.ModelChoiceField(
+        label=_("Bar council"), queryset=Jurisdiction.objects.none(), empty_label=None
+    )
+    license_number = forms.CharField(label=_("License number"), max_length=50)
+
+    def __init__(self, *args, profile, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["jurisdiction"].queryset = Jurisdiction.objects.filter(is_active=True).exclude(
+            baradmission__lawyer=profile
+        )
+
+    def clean_license_number(self):
+        return self.cleaned_data["license_number"].strip()

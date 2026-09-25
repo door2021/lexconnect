@@ -43,6 +43,7 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.auth.middleware.LoginRequiredMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django_htmx.middleware.HtmxMiddleware",
@@ -118,11 +119,27 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 # Email
 # https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration
 
-MAILERS = {
-    "default": {
-        "BACKEND": "django.core.mail.backends.console.EmailBackend",
-    },
-}
+# Console output in development; SMTP when EMAIL_HOST is set (production).
+if env("EMAIL_HOST", default=""):
+    MAILERS = {
+        "default": {
+            "BACKEND": "django.core.mail.backends.smtp.EmailBackend",
+            "OPTIONS": {
+                "host": env("EMAIL_HOST"),
+                "port": env.int("EMAIL_PORT", default=587),
+                "username": env("EMAIL_HOST_USER", default=""),
+                "password": env("EMAIL_HOST_PASSWORD", default=""),
+                "use_tls": env.bool("EMAIL_USE_TLS", default=True),
+                "timeout": 10,
+            },
+        },
+    }
+else:
+    MAILERS = {
+        "default": {"BACKEND": "django.core.mail.backends.console.EmailBackend"},
+    }
+
+DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL", default="LawNet <no-reply@localhost>")
 
 AUTH_USER_MODEL = "accounts.User"
 

@@ -4,7 +4,10 @@
     <a href="{% url 'home' %}" class="text-lg font-bold text-brand-800">{{ SITE_NAME }}</a>
     <div class="flex items-center gap-4 text-sm">
       {% if user.is_authenticated %}
-        <span class="text-slate-600">@{{ user.handle }}</span>
+        {% if user.lawyer_profile %}
+          <a href="{% url 'lawyers:profile' user.handle %}" class="text-slate-600 hover:text-brand-700">@{{ user.handle }}</a>
+          <a href="{% url 'lawyers:profile_edit' %}" class="text-slate-600 hover:text-brand-700">{% translate "Settings" %}</a>
+        {% endif %}
         <form method="post" action="{% url 'accounts:logout' %}">
           {% csrf_token %}
           <button type="submit" class="text-slate-600 hover:text-brand-700">{% translate "Log out" %}</button>

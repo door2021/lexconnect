@@ -83,3 +83,27 @@ def reject_admission(*, admission: BarAdmission, reviewer, reason: str) -> BarAd
     admission.rejection_reason = reason
     admission.save()
     return admission
+
+
+@transaction.atomic
+def update_profile(
+    *, profile: LawyerProfile, name: str, headline: str, city: str, bio: str
+) -> LawyerProfile:
+    user = profile.user
+    user.name = name
+    user.full_clean()
+    user.save(update_fields=["name"])
+
+    profile.headline = headline
+    profile.city = city
+    profile.bio = bio
+    profile.full_clean()
+    profile.save(update_fields=["headline", "city", "bio", "updated_at"])
+    return profile
+
+
+def withdraw_admission(*, admission: BarAdmission) -> None:
+    """Remove a pending or rejected admission so the lawyer can resubmit."""
+    if admission.status == BarAdmission.Status.VERIFIED:
+        raise ValidationError(_("Verified admissions cannot be withdrawn."))
+    admission.delete()

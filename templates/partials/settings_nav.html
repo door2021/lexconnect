@@ -1,0 +1,7 @@
+{% load i18n %}
+<nav class="mb-6 flex gap-4 border-b border-slate-200 text-sm" aria-label="{% translate 'Settings' %}">
+  {% url 'lawyers:profile_edit' as profile_url %}{% url 'lawyers:bar_admissions' as bar_url %}{% url 'accounts:password_change' as password_url %}
+  <a href="{{ profile_url }}" class="-mb-px border-b-2 px-1 pb-2 {% if request.path == profile_url %}border-brand-700 font-semibold text-brand-800{% else %}border-transparent text-slate-600 hover:text-brand-700{% endif %}">{% translate "Profile" %}</a>
+  <a href="{{ bar_url }}" class="-mb-px border-b-2 px-1 pb-2 {% if request.path == bar_url %}border-brand-700 font-semibold text-brand-800{% else %}border-transparent text-slate-600 hover:text-brand-700{% endif %}">{% translate "Bar details" %}</a>
+  <a href="{{ password_url }}" class="-mb-px border-b-2 px-1 pb-2 {% if request.path == password_url %}border-brand-700 font-semibold text-brand-800{% else %}border-transparent text-slate-600 hover:text-brand-700{% endif %}">{% translate "Password" %}</a>
+</nav>

@@ -8,6 +8,7 @@
     {% csrf_token %}
     {{ form }}
     <input type="hidden" name="next" value="{{ next }}">
+    <p class="text-right text-sm"><a href="{% url 'accounts:password_reset' %}" class="text-brand-700 hover:underline">{% translate "Forgot password?" %}</a></p>
     <button type="submit" class="btn-primary w-full">{% translate "Log in" %}</button>
   </form>
   <p class="mt-6 text-center text-sm text-slate-600">
